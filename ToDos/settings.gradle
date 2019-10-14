@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':silentmode'
 rootProject.name='ToDos'
