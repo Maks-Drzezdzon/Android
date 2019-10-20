@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../ToDos.iml" filepath="$PROJECT_DIR$/../ToDos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app.iml" filepath="$PROJECT_DIR$/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../silentmode/silentmode.iml" filepath="$PROJECT_DIR$/../silentmode/silentmode.iml" />
+    </modules>
+  </component>
+</project>
