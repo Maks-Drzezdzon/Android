@@ -8,6 +8,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -27,39 +29,56 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
     private LineChart mChart;// variable for linechart to specify that it is a linechart to the library
     private Thread thread; // needs to be set as a global variable for later use
     private boolean graphData = true; // conditional variable for later use
-    private  long isMoving = 0; //baseline value
+    private long isMoving = 0; // baseline value
     private float co_x,co_y,co_z; // assign variables to hold x,y,z values from accelerometer for testing purposes
     private static final int MoveThreshold = 600; // this value never changes and is the minimal value for motion to be registered later
-    private  float[] gravity = new  float[3]; // array to hold data
+    private float[] gravity = new  float[3]; // array to hold data
     private float[] linear_acceleration = new float[3]; // array to hold data
-    //sensors from sensor manager
+    // sensors from sensor manager
     private SensorManager sensorManager;
     private Sensor accelerometer;
-
+    private Button pauseButton;
+    private boolean clicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //instantiate object of sensor manager and accelerometer to be used by the application
+        // instantiate object of sensor manager and accelerometer to be used by the application
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        //get accelerometer sensor from sensor manager
+        // get accelerometer sensor from sensor manager
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        pauseButton = (Button) findViewById(R.id.pauseButton);
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!clicked) {
+                    onPause();
+                    pauseButton.setText("Resume");
+                    clicked=true;
+                }else if(clicked){
+                    onResume();
+                    pauseButton.setText("Pause");
+                    clicked=false;
+                }
+            }
+        });
 
-        //register the accelerometer with the sensor manager
+
+        // register the accelerometer with the sensor manager
         if(sensorManager != null) {
             sensorManager.registerListener ( this, accelerometer, sensorManager.SENSOR_DELAY_NORMAL );
         }
 
         //**************************************************************************//
-        //chart code
-        //setting chart variables
+        // chart code
+        // setting chart variables
         mChart = findViewById (R.id.chart);
         mChart.getDescription ().setEnabled ( true );
 
-        //enabling dragging and disabling scale
-        //disabling scale means that x and yAxis axis must be done separately
+        // enabling dragging and disabling scale
+        // disabling scale means that x and yAxis axis must be done separately
         mChart.setDragEnabled ( true );
         mChart.setScaleEnabled ( false );
 
@@ -68,38 +87,38 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
         LineData data = new LineData ( );
         data.setValueTextColor(Color.BLACK);
 
-        //add data to set
+        // add data to set
         mChart.setData ( data );
 
-        //creates a label from the mpandroidchart library referred to as the legend
-        //this label is used for the data set passed to the graph and it is unique
+        // creates a label from the mpandroidchart library referred to as the legend
+        // this label is used for the data set passed to the graph and it is unique
         Legend label = mChart.getLegend();
 
-        //the legend is the name given to the data set displayed at the bottom of the graph
+        // the legend is the name given to the data set displayed at the bottom of the graph
         label.setForm(Legend.LegendForm.LINE);
         label.setTextColor(Color.BLUE);
 
-        //creates an obj of the xAxis and assigns it to the mchart and calls getXAxis to it
+        // creates an obj of the xAxis and assigns it to the mchart and calls getXAxis to it
         XAxis xAxis = mChart.getXAxis();
-        //sets param for it such as color,being viable with drawgridlines and turning it on with setenabled
+        // sets param for it such as color,being viable with drawgridlines and turning it on with setenabled
         xAxis.setTextColor(Color.BLACK);
         xAxis.setDrawGridLines(true);//will draw grid lines
         xAxis.setAvoidFirstLastClipping(true);
         xAxis.setEnabled(true);
 
-        //creates an obj of the yAxis and assigns it to the mchart and calls getXAxis to it
+        // creates an obj of the yAxis and assigns it to the mchart and calls getXAxis to it
         // data has AxisDependency.LEFT
         YAxis yAxis = mChart.getAxisLeft();
-        //sets color of lines
+        // sets color of lines
         yAxis.setTextColor(Color.BLACK);
         yAxis.setDrawGridLines(false);
-        //sets min and max values allowed for the yAxis to display on the graph
+        // sets min and max values allowed for the yAxis to display on the graph
         yAxis.setAxisMaximum(10f);
         yAxis.setAxisMinimum(0f);//restricts the y axis from going all over the graph
-        //enables display on graph
+        // enables display on graph
         yAxis.setDrawGridLines(true);//will draw grid lines
 
-        //disables the getAxisRight as it is not used
+        // disables the getAxisRight as it is not used
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setEnabled(false);
 
@@ -107,16 +126,16 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
         mChart.getXAxis().setDrawGridLines(false);
         mChart.setDrawBorders(false);
 
-        //call the method to send data using a thread
-        //if a thread is not used the app will crash
+        // call the method to send data using a thread
+        // if a thread is not used the app will crash
         feedData();
-    }//end of onCreate
+    }// end of onCreate
 
 
     @Override
-    //method for detecting movement
-    //when data is send from  sensor do this
-    //store in var event
+    // method for detecting movement
+    // when data is send from  sensor do this
+    // store in var event
     public void onSensorChanged(SensorEvent event) {
         //since graphData is true the statement runs
         //calls the addEvent method and passes it the event data from SensorEvent
@@ -147,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
         Sensor sensorChanged = event.sensor;
 
         //text view to display values to screen
-        TextView textView = findViewById(R.id.textView);
+        TextView mainScreenTextView = findViewById(R.id.Pause);
 
 
         //using the accelerometer sensor
@@ -196,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
                 float yMin = mChart.getYMin ();
                 float yMax = mChart.getYMax ();
 
-                textView.setText((String.format("\nGravitational pull is :  %.2f m/s2", GravitationalPull ))+""
+                mainScreenTextView.setText((String.format("\nGravitational pull is :  %.2f m/s2", GravitationalPull ))+""
                         +(String.format("\nCurrent speed is: %.2f m/s2", speed ))+""+(String.format ("\nMax speed %.2f m/s2 and Min speed %.2f m/s2 ",yMax,yMin)));
             }// end of time if
 
@@ -292,8 +311,8 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
-//these functions dont work properly with the MPAndroid library and are disconnected from the UI
- // i wasnt able to find a reason why they stopped working once i started using the library
+    // these functions dont work properly with the MPAndroid library and are disconnected from the UI
+     // i wasnt able to find a reason why they stopped working once i started using the library
     @Override
     protected void onPause(){
         super.onPause();//calling parent constructor of method
@@ -306,7 +325,6 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
     protected void onResume(){
         super.onResume();//calling parent constructor of method
         sensorManager.registerListener(this,accelerometer,sensorManager.SENSOR_DELAY_NORMAL);
-
     }
 
 
