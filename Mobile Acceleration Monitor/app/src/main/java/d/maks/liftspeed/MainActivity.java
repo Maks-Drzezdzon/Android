@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
         // if a thread is not used the app will crash
         feedData();
 
-        Log.d("MainActivity"," is running");
+        Log.i("MainActivity"," is running");
     }// end of onCreate
 
 
@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
 
         }// end of sensor if
 
-        Log.d("onSensorChanged"," is running");
+        Log.i("onSensorChanged"," is running");
     }// end of sensor changed
 
 
@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
             mChart.moveViewToX(data.getEntryCount());
 
         }
-        Log.d("addEvent"," is running");
+        Log.i("addEvent"," is running");
     }
 
 
