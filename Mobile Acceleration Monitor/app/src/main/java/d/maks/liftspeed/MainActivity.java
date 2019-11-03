@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -90,8 +91,8 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
         // add data to set
         mChart.setData ( data );
 
-        // creates a label from the mpandroidchart library referred to as the legend
-        // this label is used for the data set passed to the graph and it is unique
+        /*creates a label from the mpandroidchart library referred to as the legend
+        this label is used for the data set passed to the graph and it is unique*/
         Legend label = mChart.getLegend();
 
         // the legend is the name given to the data set displayed at the bottom of the graph
@@ -106,8 +107,8 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
         xAxis.setAvoidFirstLastClipping(true);
         xAxis.setEnabled(true);
 
-        // creates an obj of the yAxis and assigns it to the mchart and calls getXAxis to it
-        // data has AxisDependency.LEFT
+        /* creates an obj of the yAxis and assigns it to the mchart and calls getXAxis to it
+        data has AxisDependency.LEFT*/
         YAxis yAxis = mChart.getAxisLeft();
         // sets color of lines
         yAxis.setTextColor(Color.BLACK);
@@ -129,17 +130,19 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
         // call the method to send data using a thread
         // if a thread is not used the app will crash
         feedData();
+
+        Log.d("MainActivity"," is running");
     }// end of onCreate
 
 
     @Override
-    // method for detecting movement
-    // when data is send from  sensor do this
-    // store in var event
+    /*method for detecting movement
+    when data is send from  sensor do this
+    store in var event*/
     public void onSensorChanged(SensorEvent event) {
-        //since graphData is true the statement runs
-        //calls the addEvent method and passes it the event data from SensorEvent
-        //then sets it to false to break out of the statement
+        /*since graphData is true the statement runs
+        calls the addEvent method and passes it the event data from SensorEvent
+        then sets it to false to break out of the statement*/
         if(graphData){ // if true
             addEvent (event); //pass event data to addEvent
             graphData = false; // set var to false breaking out of the loop
@@ -188,18 +191,16 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
 
                 //calculates acceleration speed
                 double GravitationalPull  = Math.sqrt(x*x+y*y+z*z);
-                //the abs() method in the Math class returns the absolute value of what is passed in
-                //this equation was used before to remove the effect of gravity from the original equation
-                //i ended up not doing that because my answer want as accurate as the google method
-                //calculates difference in gravity
+                /*the abs() method in the Math class returns the absolute value of what is passed in
+                this equation was used before to remove the effect of gravity from the original equation
+                i ended up not doing that because my answer want as accurate as the google method
+                calculates difference in gravity*/
                 float speed = Math.abs(x + y +z - co_x - co_y - co_z)/newTime * 10000;
-                //if value of speed is below 600 do nothing
-                // this is done because the sensors are very sensitive and even when i place the phone on
-                //a table the x and y axis still move slightly
-
-
-                //this variable is unused i used it previously to take the force of gravity from the speed in a previous irritation of the application
-                //double finalspeed = magnitude - speed;
+                /*if value of speed is below 600 do nothing
+                this is done because the sensors are very sensitive and even when i place the phone on
+                a table the x and y axis still move slightly
+                this variable is unused i used it previously to take the force of gravity from the speed in a previous irritation of the application
+                double finalspeed = magnitude - speed;*/
 
                 if (speed > MoveThreshold){
 
@@ -221,6 +222,7 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
 
         }// end of sensor if
 
+        Log.d("onSensorChanged"," is running");
     }// end of sensor changed
 
 
@@ -251,16 +253,18 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
             mChart.moveViewToX(data.getEntryCount());
 
         }
+        Log.d("addEvent"," is running");
     }
 
-    //assigns data to a data set to be passed to the chart Library
-    private LineDataSet createSet() {
 
-        //this method is responsible for the data input to be created and changed as new data comes in from the sensors
-        LineDataSet set = new LineDataSet(null, "");
-        //sets the data stored in set to be showed on the Y axis
-        // when t he speed changes this will cause the line to jump up or down on the y axis
-        //the x axis keeps the data feed going there inst a change for the x axis on the graph
+    private LineDataSet createSet(){
+        /*assigns data to a data set to be passed to the chart Library
+        this is an external library
+        this method is responsible for the data input to be created and changed as new data comes in from the sensors*/
+        LineDataSet set = new LineDataSet(null, "Data");
+        /*sets the data stored in set to be showed on the Y axis
+        /when t he speed changes this will cause the line to jump up or down on the y axis
+        the x axis keeps the data feed going there inst a change for the x axis on the graph*/
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
         //line thickness
         set.setLineWidth(3f);
@@ -274,14 +278,18 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
         set.setCubicIntensity(0.2f);
         //returns the LineDataSet
         return set;
+
     }
 
     public  void feedData() {
 
         //if the thread is not null  interrupt the thread
-        if (thread != null){
-            thread.interrupt();
-        }
+        try {
+            if (thread != null) {
+                thread.interrupt();
+            }
+        }catch (Exception e){Log.d("feedData error: "," Thread interrupt  failure in feedData -- "+e);}
+
 
         //creates thread
         thread = new Thread(new Runnable() {
@@ -301,30 +309,42 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
             }
         });//end of thread
 
-        //calls thread ref variable and then uses the start(); method from the O.S
-        thread.start();
+        try {
+            //calls thread ref variable and then uses the start(); method from the O.S
+            thread.start();
+        }catch(Exception e){Log.d("feedData error: "," Thread start failure in feedData -- "+e);}
+
+        Log.d("dataThread"," has been created");
     }
 
     @Override
-    //this  is an abstract method in the SensorEventListener , it must be implemented
-    // but its not used in this application
+    /*this  is an abstract method in the SensorEventListener , it must be implemented
+    but its not used in this application*/
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // pass
     }
 
-    // these functions dont work properly with the MPAndroid library and are disconnected from the UI
-     // i wasnt able to find a reason why they stopped working once i started using the library
+    /* these functions dont work properly with the MPAndroid library and are disconnected from the UI
+     i wasnt able to find a reason why they stopped working once i started using the library*/
     @Override
     protected void onPause(){
-        super.onPause();//calling parent constructor of method
-        //unregisters all sensor listeners so they stop using app resources
-        //if the thread is not null use the interrupt(); method on the thread variable
-        sensorManager.unregisterListener(this);
+        try {
+            super.onPause();
+            /*calling parent constructor of method
+            unregisters all sensor listeners so they stop using app resources
+            if the thread is not null use the interrupt(); method on the thread variable*/
+            sensorManager.unregisterListener(this);
+            Log.d("onPause", " is running");
+        }catch (Exception e){Log.d("onPause error: ", " "+ e);}
     }
 
     @Override
     protected void onResume(){
-        super.onResume();//calling parent constructor of method
-        sensorManager.registerListener(this,accelerometer,sensorManager.SENSOR_DELAY_NORMAL);
+        try{
+            super.onResume();//calling parent constructor of method
+            sensorManager.registerListener(this,accelerometer,sensorManager.SENSOR_DELAY_NORMAL);
+            Log.d("onResume"," is running");
+        }catch (Exception e){Log.d("onResume error: "," "+e);}
     }
 
 
