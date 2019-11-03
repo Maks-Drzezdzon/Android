@@ -171,9 +171,8 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
         //text view to display values to screen
         TextView mainScreenTextView = findViewById(R.id.Pause);
 
-
-        //using the accelerometer sensor
-        //filtering what sensor data im looking for by TYPE_ACCELEROMETER
+        /*using the accelerometer sensor
+        filtering what sensor data im looking for by TYPE_ACCELEROMETER*/
 
         if (sensorChanged.getType() == Sensor.TYPE_ACCELEROMETER){
             //returns system time
@@ -288,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
             if (thread != null) {
                 thread.interrupt();
             }
-        }catch (Exception e){Log.d("feedData error: "," Thread interrupt  failure in feedData -- "+e);}
+        }catch (Exception e){Log.e("feedData error: "," Thread interrupt  failure in feedData -- "+e);}
 
 
         //creates thread
@@ -314,7 +313,7 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
             thread.start();
         }catch(Exception e){Log.d("feedData error: "," Thread start failure in feedData -- "+e);}
 
-        Log.d("dataThread"," has been created");
+        Log.e("dataThread"," has been created");
     }
 
     @Override
@@ -335,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
             if the thread is not null use the interrupt(); method on the thread variable*/
             sensorManager.unregisterListener(this);
             Log.d("onPause", " is running");
-        }catch (Exception e){Log.d("onPause error: ", " "+ e);}
+        }catch (Exception e){Log.e("onPause error: ", " "+ e);}
     }
 
     @Override
@@ -344,7 +343,7 @@ public class MainActivity extends AppCompatActivity implements  SensorEventListe
             super.onResume();//calling parent constructor of method
             sensorManager.registerListener(this,accelerometer,sensorManager.SENSOR_DELAY_NORMAL);
             Log.d("onResume"," is running");
-        }catch (Exception e){Log.d("onResume error: "," "+e);}
+        }catch (Exception e){Log.e("onResume error: "," "+e);}
     }
 
 
