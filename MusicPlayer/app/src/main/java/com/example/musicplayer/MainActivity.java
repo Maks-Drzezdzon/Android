@@ -37,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        play = findViewById(R.id.play);
+        title = findViewById(R.id.title);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     private  void populateTracks(){
         tracks = new ArrayList<>();
 
-        tracks.add(new Track("track name", "artist", R.drawable));
+        tracks.add(new Track("track name", "artist", R.drawable)); // get icon for
     }
 
     @Override
