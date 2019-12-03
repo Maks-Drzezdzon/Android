@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Quiz</string>
+    <string name="question_text_box">What is your name</string>
+    <string name="question1">question1</string>
+    <string name="question2">question2</string>
+    <string name="question3">question3</string>
+    <string name="False">False</string>
+    <string name="True">True</string>
+    <string name="next">Next</string>
+
 </resources>
