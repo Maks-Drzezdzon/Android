@@ -1,2 +1,0 @@
-include ':app', ':silentmode'
-rootProject.name='ToDos'

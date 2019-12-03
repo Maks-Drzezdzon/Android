@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     private  void populateTracks(){
         tracks = new ArrayList<>();
 
-        tracks.add(new Track("track name", "artist", R.drawable)); // get icon for
+        tracks.add(new Track("track name", "artist", R.drawable.ic_launcher_background)); // get icon for background
     }
 
     @Override
