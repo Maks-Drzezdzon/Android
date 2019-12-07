@@ -2,6 +2,7 @@ package com.example.tinderclone;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,10 @@ public class ChooseLoginRegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // do things
+                Intent intent = new Intent(ChooseLoginRegistrationActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                return;
             }
         });
 
