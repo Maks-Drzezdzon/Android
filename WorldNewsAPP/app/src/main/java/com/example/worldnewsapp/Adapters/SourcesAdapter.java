@@ -1,6 +1,7 @@
 package com.example.worldnewsapp.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.worldnewsapp.Activities.ListStackActivity;
 import com.example.worldnewsapp.Models.Source;
 import com.example.worldnewsapp.R;
 
@@ -56,6 +58,18 @@ public class SourcesAdapter extends RecyclerView.Adapter<SourcesAdapter.SourcesV
         public SourcesViewHolder(@NonNull View itemView){
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Source sourceItem = sourceLists.get(getAdapterPosition());
+
+                    Intent intent = new Intent(context, ListStackActivity.class);
+                    intent.putExtra("sourceId", sourceItem.getId());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            });
         }
 
 

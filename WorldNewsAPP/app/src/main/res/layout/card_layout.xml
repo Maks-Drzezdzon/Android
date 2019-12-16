@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="5dp"
+    app:cardCornerRadius="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#98DAE2">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relativeLayoutImg">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:src="@drawable/ic_action_name"
+                android:scaleType="fitXY"
+                android:id="@+id/imageNews"
+                android:contentDescription="@string/todo" />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:id="@+id/progressBar"
+                android:indeterminate="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativeLayoutImg">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/newsTitle"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_margin="5dp"
+                android:text="@string/filler_text_here"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/newsDescription"
+                android:layout_below="@id/newsTitle"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:textColor="#fff"
+                android:text="@string/this_will_be_desc"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/newsDescription"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:autoLink="web"
+                android:id="@+id/newsUrl"
+                android:text="@string/https_bbs_co_uk"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/newsUrl"
+                android:layout_marginTop="10dp"
+                android:text="@string/default_site_com"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#fff"
+                android:padding="5dp"
+                android:maxLines="24"
+                android:id="@+id/websiteNameTxt"
+                />
+
+            <com.github.curioustechizen.ago.RelativeTimeTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/websiteNameTxt"
+                android:layout_below="@id/newsUrl"
+                android:text="@string/_7hrs_ago"
+                android:layout_marginTop="10dp"
+                android:textColor="#fff"
+                android:padding="5dp"
+                android:id="@+id/newsTime"
+                android:layout_marginStart="40dp"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/newsUrl"
+                android:src="@drawable/ic_share"
+                android:id="@+id/shareNews"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/todo" />
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

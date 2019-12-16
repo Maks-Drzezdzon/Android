@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">WorldNewsAPP</string>
+    <string name="filler_text_here">filler text here</string>
+    <string name="this_will_be_desc">This will be desc</string>
+    <string name="https_bbs_co_uk">https://bbs.co.uk</string>
+    <string name="default_site_com">default site.com</string>
+    <string name="_7hrs_ago">7hrs ago</string>
+    <string name="todo">TODO</string>
 </resources>
