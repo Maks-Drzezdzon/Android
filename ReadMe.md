@@ -9,7 +9,7 @@
 <h><b>Speed calculator</b></h>
 <p>tapping into sensors and graphing it live, working with threads to pause and resume</p>
 <br>
-<img src="./images/fbookNotDone.png" width="100">
+<img src="./images/speed.png" width="100">
 
 <br>
 <h><b>Messenger app</b></h>
